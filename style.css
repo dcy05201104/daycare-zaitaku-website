@@ -1,0 +1,1014 @@
+/* --- リセットと基本設定 --- */
+* {
+    margin: 0; padding: 0; box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #2E7D32; /* 濃い緑（信頼感） */
+    --accent-color: #E65100;  /* 濃いオレンジ（活気） */
+    --text-color: #222;       /* ほぼ黒（読みやすさ） */
+    --bg-light: #F1F8E9;
+}
+
+body {
+    font-size: 18px; /* 50-60代向けに大きく設定 */
+    font-family: "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+    color: var(--text-color);
+    line-height: 1.8;
+    background-color: #fff;
+    overflow-x: hidden;
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+/* --- ヘッダー：ここが崩れ防止の肝です --- */
+.main-header {
+    width: 100%; background: #fff; box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+    position: sticky; top: 0; z-index: 1000;
+}
+
+.header-container {
+    max-width: 1200px; margin: 0 auto; padding: 15px 20px;
+    display: flex; justify-content: space-between; align-items: center;
+}
+
+/* --- ヘッダー内のロゴ調整 --- */
+.logo {
+    display: flex; /* 親要素もflexにしておくとより安定します */
+    align-items: baseline; /* 親も揃えておきます */
+    font-size: 1.8rem; /* ここがベースの大きさ */
+    font-weight: bold;
+    color: var(--primary-color);
+    white-space: nowrap;
+}
+
+.logo-sub {
+    /* ↓ サイズを 1rem から変更。親の .logo と同じにするには 1em (または 1.8rem) にします */
+    font-size: 1.2em; 
+    color: #555; /* 色はそのままグレーを維持 */
+    margin-left: 0;
+    font-weight: bold; /* デイケアに合わせて太字にすると統一感が出ます */
+}
+
+/* --- ロゴのレイアウト調整 --- */
+.logo a {
+    display: flex;       /* 横並び */
+    /* ★ここを center から baseline に変更！ */
+    align-items: baseline;
+    gap: 12px;           /* ロゴと文字の隙間 */
+    text-decoration: none;
+    
+    /* ★超重要：テキストの「見えない余白（行間）」を0にして、ロゴに高さを合わせます */
+    line-height: 1 !important; 
+}
+
+.header-logo-img {
+    height: 38px; /* 文字の高さに合わせるなら 38px 〜 40px くらい */
+    width: auto;
+    
+    /* 余計なマージンは全てリセット */
+    margin: 0 !important;
+    position: static !important;
+    
+    /* ★もし下揃えにしてロゴが「下すぎ」と感じたら、
+       ほんの少しだけ浮かせる魔法（1px〜2px） */
+    transform: translateY(4px); 
+}
+
+.main-nav ul {
+    list-style: none; display: flex; gap: 15px; align-items: center;
+}
+.main-nav a {
+    text-decoration: none; color: var(--text-color); font-weight: bold; font-size: 1.1rem;
+}
+.btn-contact-top {
+    background: var(--primary-color) !important; color: #fff !important;
+    padding: 10px 20px; border-radius: 6px; font-size: 1rem;
+}
+
+/* --- ヒーロー（じわーと入れ替わるクロスフェード版） --- */
+.hero {
+    height: 600px; /* スライドが見えやすいよう少し高めに設定 */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    background-color: #f0f0f0;
+}
+
+/* スライド画像エリア */
+.hero-slides {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 1;
+}
+
+.slide {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    
+    /* 初期状態は透明 */
+    opacity: 0;
+    /* 2秒かけてじわーと変化させる */
+    transition: opacity 2.0s ease-in-out; 
+}
+
+/* このクラスがついた時だけ表示される */
+.slide.active {
+    opacity: 1;
+}
+
+/* 画像の上の半透明カバー（文字を読みやすくする） */
+.hero-slides::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(255, 255, 255, 0.5); /* 白背景を50%被せる */
+    z-index: 2;
+}
+
+/* 文字コンテンツエリア */
+.hero-content {
+    position: relative;
+    z-index: 3; /* 画像やカバーより上に表示 */
+    padding: 0 20px;
+}
+
+/* --- 文字サイズ設定（50-60代向けデカ文字） --- */
+.hero h1 { 
+    font-size: 3.2rem; 
+    line-height: 1.3; 
+    color: #111; 
+    margin: 20px 0; 
+}
+
+.hero-sub {
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 1.5rem; 
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.hero-badge {
+    display: inline-block; 
+    background: var(--accent-color); 
+    color: #fff;
+    padding: 12px 30px; 
+    border-radius: 50px; 
+    font-size: 1.25rem; 
+    font-weight: bold;
+}
+
+/* フェードアニメーション */
+.fade {
+    animation: fadeEffect 2s;
+}
+
+@keyframes fadeEffect {
+    from { opacity: 0.4; }
+    to { opacity: 1; }
+}
+
+/* --- 特徴カード（最新のアニメーション・色付き版） --- */
+.services { 
+    padding: 100px 0; 
+}
+
+.section-title { 
+    text-align: center; 
+    margin-bottom: 60px; 
+}
+
+.section-title p { 
+    font-size: 2.2rem; 
+    font-weight: bold; 
+    margin-top: 5px; 
+}
+
+.service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+/* カード本体の設定 */
+.service-card {
+    display: block; /* カード全体をクリック可能に */
+    text-decoration: none; /* リンクの下線を消す */
+    color: inherit; /* 文字色を黒のままに */
+    background: #f8faf8; /* ★ほんのり薄いセージグリーン */
+    padding: 50px 30px;
+    border-radius: 20px;
+    border: 2px solid transparent;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    
+    /* 動きをなめらかにする設定 */
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+/* マウスを乗せた時の動き（ホバー） */
+.service-card:hover {
+    background: #ffffff; /* 背景を白く */
+    border-color: var(--primary-color); /* 枠線を緑に */
+    transform: translateY(-10px); /* 10px上に浮き上がる */
+    box-shadow: 0 15px 30px rgba(46, 125, 50, 0.15); /* 影を強くする */
+}
+
+.service-card .icon {
+    font-size: 4.5rem;
+    margin-bottom: 30px;
+    display: block;
+}
+
+.service-card h4 {
+    font-size: 1.6rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.service-card p {
+    font-size: 1.15rem;
+    text-align: left;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+/* 「詳しく見る」の文字 */
+.view-more {
+    display: inline-block;
+    color: var(--primary-color);
+    font-weight: bold;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 2px;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.service-card:hover .view-more {
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+/* --- 時間割テーブル --- */
+.schedule-section { padding-bottom: 100px; background: var(--bg-light); padding-top: 80px; }
+.table-wrapper { overflow-x: auto; margin-top: 30px; }
+.schedule-table {
+    width: 100%; border-collapse: collapse; background: #fff; font-size: 1.4rem;
+}
+.schedule-table th {
+    background: var(--primary-color);
+    color: #fff;
+    /* ★20pxから10pxに減らします */
+    padding: 10px; 
+    text-align: center;
+}
+
+.schedule-table td {
+    /* ★こちらも10pxに。左右の余白は15pxくらい残すと見やすいです */
+    padding: 10px 15px; 
+    border: 1px solid #ddd;
+    text-align: center;
+    font-weight: bold;
+    /* ★行の間隔も少し詰めるとさらにスッキリします */
+    line-height: 1.3;
+}
+
+/* ↓ ここを修正しました：中央寄せにして、左の余白をリセットしています */
+.time-label { 
+    text-align: center !important; 
+    background: #fafafa; 
+    padding-left: 0 !important; 
+}
+
+.mark { color: var(--primary-color); font-size: 1.6rem; }
+
+/* --- フォームへの誘導ボタン --- */
+.info-footer { text-align: center; margin-top: 60px; }
+.btn-tel {
+    display: inline-block; background: var(--accent-color); color: #fff;
+    text-decoration: none; padding: 25px 50px; border-radius: 12px;
+    font-size: 1.6rem; font-weight: bold; box-shadow: 0 4px 0 #bf4300;
+}
+
+/* --- アクセスセクション（完成版：駐車場強調デザイン） --- */
+.access-section {
+    padding: 100px 20px;
+}
+
+.access-grid {
+    display: flex;
+    gap: 50px;
+    align-items: flex-start;
+    margin-top: 40px;
+}
+
+.map-area {
+    flex: 1.2;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    border: 1px solid #eee;
+}
+
+.address-info {
+    flex: 1;
+}
+
+.address-info h4 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 25px;
+    border-bottom: 3px solid var(--primary-color);
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+.address-text {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+/* 連絡先リスト */
+.contact-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.contact-item .label {
+    background: var(--primary-color);
+    color: #fff;
+    padding: 2px 12px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    margin-right: 15px;
+    min-width: 65px;
+    text-align: center;
+}
+
+.tel-link {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-size: 1.7rem; /* 少しだけ大きくしました */
+    font-weight: bold;
+}
+
+.mail-link {
+    color: var(--primary-color);
+    word-break: break-all;
+    text-decoration: none;
+}
+
+/* ★ 駐車場案内の強調ボックス（ここが新しくなっています） */
+.parking-info-box {
+    background: #FFF3E0; /* 薄いオレンジ背景 */
+    border: 2px dashed var(--accent-color); /* オレンジの点線で囲む */
+    padding: 25px;
+    border-radius: 12px;
+    margin-top: 30px;
+}
+
+.parking-info-box h5 {
+    color: var(--accent-color);
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.parking-info-box p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.parking-info-box strong {
+    color: #d32f2f; /* 赤文字でさらに強調 */
+    font-size: 1.2rem;
+}
+
+/* --- 導入機器セクション --- */
+.equipment-section {
+    padding: 100px 20px;
+    background-color: #fff;
+}
+
+/* --- 修正後の `.equipment-grid` --- */
+.equipment-grid {
+    /* グリッドからフレックスボックスに変更します */
+    display: flex;
+    flex-wrap: wrap;       /* 追加：画面幅に合わせて折り返す */
+    justify-content: center; /* ★肝：アイテム全体を中央揃えにする */
+    gap: 40px;
+    margin-top: 40px;
+}
+
+/* 各カードの幅をフレックスで調整します */
+.equipment-card {
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    border: 1px solid #eee;
+
+    /* カードの幅をフレックスで管理 */
+    /* 画面幅に合わせて320pxまで広がり、狭くなれば縮む設定 */
+    flex: 0 1 320px; 
+}
+
+/* 画像エリア */
+.eq-image-box {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    background: #f0f0f0; /* 画像がない時の仮背景 */
+}
+
+.eq-image-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* オレンジ色のタグ */
+.eq-tag {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: var(--accent-color);
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+/* テキストエリア */
+.eq-info {
+    padding: 25px;
+}
+
+.eq-info h4 {
+    font-size: 1.4rem;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    line-height: 1.3;
+}
+
+.eq-info h4 small {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.eq-info p {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #444;
+}
+
+/* --- フッター --- */
+.footer { padding: 40px 0; text-align: center; background: #333; color: #fff; font-size: 0.9rem; }
+
+/* --- アニメーション --- */
+.reveal { opacity: 0; transform: translateY(40px); transition: 1s ease-out; }
+.reveal.active { opacity: 1; transform: translateY(0); }
+
+/* --- 詳細ページ用スタイル --- */
+.sub-page {
+    background-color: #fff;
+}
+
+.page-content {
+    padding-top: 60px;
+    padding-bottom: 100px;
+    max-width: 900px; /* 読みやすいように少し幅を絞る */
+}
+
+.detail-header {
+    /* ↓ タイトルと上のCONTACTを中央に寄せます */
+    text-align: center; 
+    border-bottom: 2px solid var(--primary-color);
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+}
+
+.category-tag {
+    color: var(--primary-color);
+    font-weight: bold;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+}
+
+.detail-header h1 {
+    font-size: 2.2rem;
+    color: #111;
+    margin-top: 10px;
+}
+
+.lead-text {
+    font-size: 1.3rem; 
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 40px;
+    line-height: 1.5;
+    /* ↓ ここを修正：文章自体も中央に寄せます */
+    text-align: center; 
+    /* 前回の nowrap は消さずに入れておくと1行を維持できます */
+    white-space: nowrap; 
+}
+
+.detail-body h3 {
+    font-size: 1.6rem;
+    margin: 40px 0 20px;
+    padding-left: 15px;
+    border-left: 5px solid var(--accent-color);
+}
+
+.detail-body p {
+    font-size: 1.15rem;
+    margin-bottom: 25px;
+}
+
+.point-box {
+    background: var(--bg-light);
+    padding: 30px;
+    border-radius: 15px;
+    margin: 40px 0;
+}
+
+.point-box h4 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+.point-box ul {
+    list-style-type: "✔ ";
+    padding-left: 20px;
+}
+
+.point-box li {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.back-link {
+    margin-top: 60px;
+    text-align: center;
+}
+
+.btn-back {
+    text-decoration: none;
+    color: #666;
+    font-weight: bold;
+    border: 1px solid #ccc;
+    padding: 10px 25px;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.btn-back:hover {
+    background: #f5f5f5;
+}
+
+/* --- ロゴのリンク設定を追記 --- */
+.logo a {
+    text-decoration: none; /* 下線を消す */
+    color: inherit;        /* 親要素（.logo）の色を引き継ぐ */
+    display: block;        /* クリックできる範囲を広げる */
+}
+
+/* --- お問い合わせフォーム（別ページ用） --- */
+.contact-form-area {
+    background: #fff;
+    padding: 40px 0;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-group label {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: var(--primary-color);
+}
+
+.required {
+    background: #ff5252;
+    color: #fff;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-left: 10px;
+}
+
+.form-group input, 
+.form-group select, 
+.form-group textarea {
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1.1rem;
+}
+
+/* 送信ボタン（オレンジ色） */
+.form-submit {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.btn-submit {
+    background: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 20px 50px;
+    font-size: 1.4rem;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #bf4300;
+    transition: 0.2s;
+}
+
+.btn-submit:hover {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #bf4300;
+}
+
+.submit-notes {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* マウスを乗せた時に少しだけ透明にして「押せる」ことを伝える（お好みで） */
+.logo a:hover {
+    opacity: 0.8;
+}
+
+/* --- サンクスページ専用スタイル --- */
+.thanks-message {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.success-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--primary-color);
+    color: #fff;
+    font-size: 40px;
+    line-height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 30px;
+}
+
+.thanks-message h1 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.thanks-body {
+    margin: 40px auto;
+    max-width: 600px;
+    font-size: 1.15rem;
+    line-height: 2;
+}
+
+.caution-text {
+    margin-top: 30px;
+    font-size: 0.95rem;
+    color: #666;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+/* PCでは改行を無効にする */
+.mobile-br {
+    display: none;
+}
+
+/* ==========================================
+   スマートフォン・タブレット用の魔法 (レスポンシブ)
+   ========================================== */
+
+@media (max-width: 768px) {
+    /* 1. 全体設定：余白の調整 */
+    body {
+        font-size: 16px; /* スマホでは標準サイズに */
+    }
+    
+    .container {
+        padding: 0 15px;
+    }
+
+    section {
+        padding: 60px 0 !important; /* セクション間の余白を詰める */
+    }
+
+    /* 2. ヘッダー：ロゴとメニューを縦に並べる */
+    .header-container {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px 10px;
+    }
+
+    .logo {
+        font-size: 1.5rem;
+    }
+
+    .main-nav ul {
+        gap: 10px;
+        flex-wrap: wrap; /* メニューが多い場合に折り返す */
+        justify-content: center;
+    }
+
+    .main-nav a {
+        font-size: 0.9rem;
+    }
+
+    /* 3. ヒーローエリア：文字を画面に収める */
+    .hero {
+        height: 450px; /* 高さを少し抑える */
+    }
+
+    .hero h1 {
+        font-size: 1.8rem; /* 文字を小さくして1行に収まりやすく */
+        line-height: 1.4;
+    }
+
+    .hero-sub {
+        font-size: 1.1rem;
+    }
+
+    /* スマホで改行を有効にする */
+    .mobile-br {
+        display: block;
+    }
+
+    .hero-badge {
+        font-size: 1.0rem !important; /* 少し大きくしても2段なら入ります */
+        padding: 15px 10px;
+        line-height: 1.6; /* ★2段になった時の行の間隔を調整 */
+        width: 100%;
+        border-radius: 10px; /* 2段になるので角丸を少し控えめにすると綺麗です */
+    }
+
+    /* 4. 特徴・機器カード：スマホ用レイアウト調整 */
+
+    /* --- 3つの理由：2枚並び ＋ 1枚中央寄せ --- */
+    .service-grid {
+        display: grid; 
+        grid-template-columns: 1fr 1fr; /* 2列にする */
+        gap: 10px;        /* カード間の隙間を少し詰める */
+        padding: 0 20px;  /* ★左右に余白（ゆとり）を作る */
+        margin-bottom: 30px;
+    }
+
+    .service-card {
+        width: 100% !important;
+        max-width: none !important;
+        /* ★上下の余白（padding）を 25px → 15px に削って、高さを抑える */
+        padding: 15px 10px !important; 
+        flex: none !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; /* 中身を等間隔にして高さを揃える */
+    }
+
+    /* ★魔法：3番目のカードを「上の2枚と同じ幅」で中央に置く */
+    .service-card:nth-child(3) {
+        grid-column: 1 / span 2; 
+        /* 2枚並びの時と全く同じ幅（約半分）に制限する */
+        width: calc(50% - 5px) !important; 
+        margin: 0 auto; /* 中央に配置 */
+    }
+
+    /* --- カードの中身をさらにコンパクトに（高さを抑える工夫） --- */
+    .service-card .icon { 
+        font-size: 2.5rem !important; /* 少し小さく */
+        margin-bottom: 10px !important; /* アイコン下の隙間を詰める */
+    }
+    
+    .service-card h4 { 
+        font-size: 1.05rem !important; 
+        margin-bottom: 8px !important; /* タイトル下の隙間を詰める */
+        line-height: 1.3 !important;
+    }
+    
+    .service-card p { 
+        font-size: 0.85rem !important; 
+        line-height: 1.4 !important; 
+        margin-bottom: 10px !important;
+    }
+
+    .view-more {
+        font-size: 0.85rem !important; /* 詳しく見るの文字も少し小さく */
+        margin-top: 5px !important;
+    }
+    
+    /* --- 機器説明の交互レイアウト魔法 --- */
+    .equipment-grid {
+        display: flex;
+        flex-direction: column; /* 縦に並べる */
+        gap: 20px; /* カード同士の間隔 */
+        padding: 0 10px;
+    }
+
+    .equipment-card {
+        display: flex; /* 横並びにする */
+        flex-direction: row; /* 基本は【左：画像 / 右：説明】 */
+        width: 100% !important;
+        max-width: none;
+        height: 240px; /* 高さを揃えてスッキリさせる */
+        border-radius: 12px;
+        background: #fff;
+    }
+
+    /* ★魔法：2番目、4番目のカードだけ左右を入れ替える */
+    .equipment-card:nth-child(even) {
+        flex-direction: row-reverse; /* 【左：説明 / 右：画像】 */
+    }
+
+    .eq-image-box {
+        flex: 0 0 42%; /* 画像の幅を42%に固定（縦長が綺麗に見える比率） */
+        height: 100%;
+    }
+
+    .eq-image-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* 画像を枠いっぱいに収める */
+    }
+
+    .eq-info {
+        flex: 1; /* 残りの幅を説明文に */
+        padding: 15px 12px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* 文字を上下中央に */
+    }
+
+    .eq-info h4 {
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+    }
+
+    .eq-info p {
+        font-size: 0.85rem; /* スマホの横並びだと幅が狭いので、少し文字を小さく */
+        line-height: 1.5;
+        margin-bottom: 0;
+    }
+
+    /* オレンジのタグをスマホ用に調整 */
+    .eq-tag {
+        font-size: 0.7rem;
+        padding: 3px 8px;
+        top: 8px;
+        left: 8px;
+    }
+
+    /* --- 5. 時間割：左右に「ゆとり」を持たせて画面に収める --- */
+    .table-wrapper {
+        /* 100%から左右15pxずつ（合計30px）引いた幅にします */
+        width: calc(100% - 20px); 
+        /* 左右をautoにすることで、表を画面の真ん中に配置します */
+        margin: 20px auto 0; 
+        overflow-x: hidden;
+        border-radius: 8px; /* 角を少し丸くするとさらに優しい印象に */
+        border: 1px solid #eee;
+    }
+
+    .schedule-table {
+        width: 100%;
+        table-layout: fixed;
+        font-size: 0.95rem; /* ほんの少しだけ小さくして、余白に回します */
+    }
+
+    /* 各列の幅を再調整（1行目の文字数に合わせる） */
+    .schedule-table th:nth-child(1),
+    .schedule-table td:nth-child(1) { width: 46%; } /* 時間枠 */
+    .schedule-table th:nth-child(2),
+    .schedule-table td:nth-child(2) { width: 27%; } /* 月〜金 */
+    .schedule-table th:nth-child(3),
+    .schedule-table td:nth-child(3) { width: 27%; } /* 土曜日 */
+
+    .schedule-table th, 
+    .schedule-table td {
+        padding: 12px 2px; /* 上下の余白を増やして、左右はスッキリ */
+        letter-spacing: -0.5px;
+    }
+
+    .time-label {
+        line-height: 1.3; /* 2行になった時の行間を詰める */
+        font-weight: bold;
+    }
+
+    /* 6. アクセス：地図を上に、情報を下に */
+    /* --- 6. アクセス：表示崩れをリセットしてシンプルに直す --- */
+    .access-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        /* 余計な横ズレを防ぐためマージンをリセット */
+        margin: 0 !important;
+    }
+
+    /* --- 6. アクセス：地図の「空き地」を消して、縦に引き伸ばす --- */
+    .access-grid {
+        display: block !important; /* レイアウトの干渉を防ぐためblockに固定 */
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .map-area {
+        /* 左右を画面いっぱいに広げる（一番確実な方法） */
+        width: 100vw !important;
+        margin-left: calc(-50vw + 50%) !important;
+        
+        /* 箱の高さを300pxに固定 */
+        height: 300px !important;
+        
+        position: relative !important;
+        overflow: hidden !important;
+        border: none !important;
+        background: #eee; /* 読み込み中の背景色 */
+    }
+
+    /* ★ここが最重要：地図そのもの（iframe）を300pxに強制します */
+    .map-area iframe {
+        display: block !important;
+        width: 100% !important;
+        height: 300px !important; /* 箱と同じ高さを直接指定！ */
+        border: 0 !important;
+    }
+
+    .address-info {
+        /* 文字情報は左右に15pxの余白を戻す */
+        padding: 0 15px;
+        margin-top: 20px;
+    }
+
+    .address-info h4 {
+        font-size: 1.6rem;
+    }
+
+    .tel-link {
+        font-size: 1.5rem;
+    }
+
+    /* 7. コンタクトページ（詳細ページ共通） */
+    .page-content {
+        padding: 40px 15px;
+    }
+
+    .detail-header h1 {
+        /* ★1.8remだと大きすぎるので、1.45remに調整 */
+        font-size: 1.45rem !important;
+        /* ★絶対に改行させない魔法 */
+        white-space: nowrap; 
+        /* ★文字の間隔をほんの少し詰めて横幅を稼ぐ */
+        letter-spacing: -1px; 
+    }
+
+    .lead-text {
+        /* ★スマホで1行にするため nowrap に変更 */
+        white-space: nowrap; 
+        /* ★21文字を収めるためにサイズを調整 */
+        font-size: 0.95rem !important;
+        line-height: 1.6;
+        letter-spacing: -0.5px;
+        text-align: center;
+    }
+
+    /* 以下、余白などはNacchanの設定をそのまま維持しています */
+    .contact-wrapper {
+        padding: 30px 20px;
+    }
+
+    .btn-submit {
+        width: 100%;
+        padding: 20px;
+    }
+}

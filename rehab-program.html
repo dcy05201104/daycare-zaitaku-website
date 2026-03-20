@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>90分の集中プログラム | デイケア西高松在宅</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.jpg" type="image/jpeg">
+</head>
+<body class="sub-page">
+
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="logo.jpg" alt="デイケア西高松在宅 ロゴ" class="header-logo-img">
+                    デイケア <span class="logo-sub">西高松在宅</span>
+                </a>
+            </div>
+
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html#features">特徴</a></li>
+                    <li><a href="index.html#schedule">時間</a></li>
+                    <li><a href="contact.html" class="btn-contact-top">お問い合わせ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container page-content">
+        <section class="detail-header reveal">
+            <span class="category-tag">90min PROGRAM</span>
+            <h1>短時間（90分）で、効果的に。</h1>
+        </section>
+
+        <section class="detail-body">
+            <div class="detail-text">
+                <p class="lead-text reveal">
+                    「1日中デイサービスにいるのは疲れる」<br>
+                    そんな方のためのリハビリ特化型です。
+                </p>
+                
+                <h3 class="reveal">食事・入浴なし。リハビリに特化した90分</h3>
+                <p class="reveal">当施設には、食事や入浴のサービスはありません。その分、すべての時間を身体を動かすこと、機能を回復させることに充てています。短時間だからこそ、集中して質の高いリハビリに取り組んでいただけます。</p>
+
+                <div class="point-box reveal">
+                    <h4>こんな方におすすめです</h4>
+                    <ul>
+                        <li>リハビリだけをしっかりやりたい方</li>
+                        <li>長時間の滞在が体力的・心理的に負担な方</li>
+                        <li>ご自宅での生活時間を大切にしたい方</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="back-link reveal">
+                <a href="index.html" class="btn-back">← トップページに戻る</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2021 デイケア西高松在宅</p>
+    </footer>
+
+    <script>
+    function reveal() {
+        var reveals = document.querySelectorAll(".reveal");
+        for (var i = 0; i < reveals.length; i++) {
+            var windowHeight = window.innerHeight;
+            var elementTop = reveals[i].getBoundingClientRect().top;
+            var elementBottom = reveals[i].getBoundingClientRect().bottom;
+
+            // 画面内に入ったら表示、出たら消す（何度も動く魔法）
+            if (elementTop < windowHeight - 100 && elementBottom > 0) {
+                reveals[i].classList.add("active");
+            } else {
+                reveals[i].classList.remove("active");
+            }
+        }
+    }
+    window.addEventListener("scroll", reveal);
+    // 最初の読み込み時にも実行
+    reveal();
+    </script>
+
+</body>
+</html>

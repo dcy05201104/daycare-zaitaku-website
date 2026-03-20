@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在宅生活をサポート | デイケア西高松在宅</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.jpg" type="image/jpeg">
+</head>
+<body class="sub-page">
+
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="logo.jpg" alt="デイケア西高松在宅 ロゴ" class="header-logo-img">
+                    デイケア <span class="logo-sub">西高松在宅</span>
+                </a>
+            </div>
+
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html#features">特徴</a></li>
+                    <li><a href="index.html#schedule">時間</a></li>
+                    <li><a href="contact.html" class="btn-contact-top">お問い合わせ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container page-content">
+        <section class="detail-header reveal">
+            <span class="category-tag">HOME SUPPORT</span>
+            <h1>住み慣れた自宅での生活を支える</h1>
+        </section>
+
+        <section class="detail-body">
+            <div class="detail-text">
+                <p class="lead-text reveal">リハビリの本当のゴールは、<br>施設ではなく「ご自宅」での生活にあります。</p>
+                
+                <h3 class="reveal">「できること」を増やし、自信を取り戻す</h3>
+                <p class="reveal">デイケア西高松在宅では、単に筋力をつけるだけでなく、実際の生活場面（立ち上がり、階段、トイレ、着替えなど）を想定したトレーニングを重視しています。ご自宅で「自分一人でできること」が増えることは、ご本人の自信と、ご家族の安心につながります。</p>
+
+                <div class="point-box reveal">
+                    <h4>在宅生活を支える3つの視点</h4>
+                    <ul>
+                        <li><strong>転倒の予防：</strong> 筋力とバランス能力を高め、家の中での転倒リスクを減らします。</li>
+                        <li><strong>家事・動作の改善：</strong> 掃除や調理、趣味の活動など、やりたいことを継続するための体力を養います。</li>
+                        <li><strong>介護負担の軽減：</strong> ご本人の自立度が高まることで、ご家族の介助の負担を軽くするサポートをします。</li>
+                    </ul>
+                </div>
+
+                <p class="reveal">私たちは、ケアマネジャー様とも密に連携し、生活環境の変化や身体状況に合わせた最適なプランを常に考え続けます。</p>
+            </div>
+
+            <div class="back-link reveal">
+                <a href="index.html" class="btn-back">← トップページに戻る</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2021 デイケア西高松在宅</p>
+        </div>
+    </footer>
+
+    <script>
+    function reveal() {
+        var reveals = document.querySelectorAll(".reveal");
+        for (var i = 0; i < reveals.length; i++) {
+            var windowHeight = window.innerHeight;
+            var elementTop = reveals[i].getBoundingClientRect().top;
+            var elementBottom = reveals[i].getBoundingClientRect().bottom;
+
+            // 画面内に入ったら表示、出たらリセット
+            if (elementTop < windowHeight - 100 && elementBottom > 0) {
+                reveals[i].classList.add("active");
+            } else {
+                reveals[i].classList.remove("active");
+            }
+        }
+    }
+    window.addEventListener("scroll", reveal);
+    reveal();
+    </script>
+
+</body>
+</html>

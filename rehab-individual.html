@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全員に個別リハビリ | デイケア西高松在宅</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.jpg" type="image/jpeg">
+</head>
+<body class="sub-page">
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="logo.jpg" alt="デイケア西高松在宅 ロゴ" class="header-logo-img">
+                    デイケア <span class="logo-sub">西高松在宅</span>
+                </a>
+            </div>
+
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html#features">特徴</a></li>
+                    <li><a href="index.html#schedule">時間</a></li>
+                    <li><a href="contact.html" class="btn-contact-top">お問い合わせ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container page-content">
+        <section class="detail-header reveal">
+            <span class="category-tag">REHABILITATION</span>
+            <h1>全員に「個別リハビリ」を提供</h1>
+        </section>
+
+        <section class="detail-body">
+            <div class="detail-text">
+                <p class="lead-text reveal">
+                    私たちは、流れ作業のリハビリは行いません。<br>
+                    専門職が必ずマンツーマンで向き合います。
+                </p>
+                
+                <h3 class="reveal">理学療法士等による「本気」のサポート</h3>
+                <p class="reveal">デイケア西高松在宅では、ご利用者様全員に対し、毎回必ず理学療法士や作業療法士による個別リハビリを実施しています。「今日は足の調子が悪い」「もっと楽に歩けるようになりたい」といった一人ひとりの声に、プロの技術で応えます。</p>
+
+                <div class="point-box reveal">
+                    <h4>個別リハビリのメリット</h4>
+                    <ul>
+                        <li>その日の体調に合わせた無理のない運動が可能</li>
+                        <li>正しいフォームで運動できるから効果が出やすい</li>
+                        <li>お困りごとを直接スタッフに相談できる</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="back-link reveal">
+                <a href="index.html" class="btn-back">← トップページに戻る</a>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        <p>&copy; 2021 デイケア西高松在宅</p>
+    </footer>
+
+    <script>
+    function reveal() {
+        var reveals = document.querySelectorAll(".reveal");
+        for (var i = 0; i < reveals.length; i++) {
+            var windowHeight = window.innerHeight;
+            var elementTop = reveals[i].getBoundingClientRect().top;
+            var elementBottom = reveals[i].getBoundingClientRect().bottom;
+
+            // 画面内に入ったら表示、出たらリセット（何度もふわっと！）
+            if (elementTop < windowHeight - 100 && elementBottom > 0) {
+                reveals[i].classList.add("active");
+            } else {
+                reveals[i].classList.remove("active");
+            }
+        }
+    }
+    window.addEventListener("scroll", reveal);
+    // 最初の表示チェック
+    reveal();
+    </script>
+</body>
+</html>
