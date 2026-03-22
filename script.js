@@ -1,46 +1,45 @@
-/* --- クロスフェード・スライドショーの制御 --- */
-let slideIndex = 0;
-const slides = document.getElementsByClassName("slide");
+/* --- スライドショー（3枚対応版） --- */
+const slides = document.querySelectorAll('.hero-slides .slide');
+let currentIndex = 0;
 
-function showSlides() {
-    // すべての画像から active クラスを消す
-    for (let i = 0; i < slides.length; i++) {
-        slides[i].classList.remove("active");
-    }
+function nextSlide() {
+    // スライドが正しく取得できているかチェック（念のため）
+    if (slides.length === 0) return;
+
+    // 現在の画像の active クラスを消す
+    slides[currentIndex].classList.remove('active');
     
-    // 次の画像へ
-    slideIndex++;
-    if (slideIndex > slides.length) {
-        slideIndex = 1;
-    }
+    // 次の画像のインデックスを計算
+    currentIndex = (currentIndex + 1) % slides.length; 
     
-    // 現在の画像に active クラスをつけて「じわーと」出す
-    slides[slideIndex - 1].classList.add("active");
-    
-    // 5秒ごとに実行（2秒かけて重なり、3秒静止するイメージ）
-    setTimeout(showSlides, 5000);
+    // 次の画像に active クラスをつける
+    slides[currentIndex].classList.add('active');
 }
 
-// ページ読み込み時にスタート
-showSlides();
+// 5秒ごとに切り替え
+setInterval(nextSlide, 5000);
 
-/* --- スクロールアニメーション（修正版） --- */
+// ★ 存在しなかった showSlides(); は削除しました ★
+
+/* --- スクロールアニメーション（何度もふわっと版） --- */
 function reveal() {
     var reveals = document.querySelectorAll(".reveal");
     for (var i = 0; i < reveals.length; i++) {
         var windowHeight = window.innerHeight;
         var elementTop = reveals[i].getBoundingClientRect().top;
-        var elementBottom = reveals[i].getBoundingClientRect().bottom; // 下端も取得
+        var elementBottom = reveals[i].getBoundingClientRect().bottom;
 
-        // 画面内に入ったら表示
+        // 画面内に入ったら表示（activeを追加）
         if (elementTop < windowHeight - 100 && elementBottom > 0) {
             reveals[i].classList.add("active");
         } 
-        // ★ここを追加：画面外（上か下）に出たら非表示にしてリセット
+        // 画面外に出たら非表示（何度も動かすためにactiveを削除）
         else {
             reveals[i].classList.remove("active");
         }
     }
 }
+
+// スクロール時だけでなく、読み込み直後にも実行して文字を出す
 window.addEventListener("scroll", reveal);
 reveal();

@@ -75,15 +75,61 @@ body {
     transform: translateY(4px); 
 }
 
+/* --- ヘッダーナビゲーションの統一デザイン（全項目下線スタイル） --- */
+
 .main-nav ul {
-    list-style: none; display: flex; gap: 15px; align-items: center;
+    list-style: none;
+    display: flex;
+    gap: 25px; 
+    align-items: center;
 }
+
 .main-nav a {
-    text-decoration: none; color: var(--text-color); font-weight: bold; font-size: 1.1rem;
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: bold;
+    font-size: 1.05rem;
+    position: relative; /* 下線の基準点 */
+    /* ★paddingを全項目共通の数値（上下8px, 左右0）にします */
+    padding: 8px 0; 
+    transition: color 0.3s;
 }
+
+/* マウスを乗せた時に文字を緑にする */
+.main-nav a:hover {
+    color: var(--primary-color);
+}
+
+/* ★「すべての項目」にマウスを乗せた時に伸びる下線をつける */
+.main-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background-color: var(--primary-color);
+    transition: width 0.3s ease;
+    border-radius: 2px;
+}
+
+.main-nav a:hover::after {
+    width: 100%;
+}
+
+/* --- お問い合わせボタンの「囲み線」を消す設定 --- */
 .btn-contact-top {
-    background: var(--primary-color) !important; color: #fff !important;
-    padding: 10px 20px; border-radius: 6px; font-size: 1rem;
+    /* ★以前設定した枠線や背景をすべてリセット（無効化）します */
+    border: none !important; 
+    background: transparent !important;
+    padding: 8px 0 !important; /* 他のメニューと同じ余白に合わせる */
+    border-radius: 0 !important;
+}
+
+/* ホバー時の塗りつぶしも不要な場合は削除または無効化 */
+.btn-contact-top:hover {
+    background: transparent !important;
+    color: var(--primary-color) !important;
 }
 
 /* --- ヒーロー（じわーと入れ替わるクロスフェード版） --- */
@@ -165,6 +211,9 @@ body {
     border-radius: 50px; 
     font-size: 1.25rem; 
     font-weight: bold;
+    
+    /* ★PCでは絶対に改行させない魔法 */
+    white-space: nowrap; 
 }
 
 /* フェードアニメーション */
@@ -704,9 +753,14 @@ body {
     border-radius: 8px;
 }
 
-/* PCでは改行を無効にする */
-.mobile-br {
-    display: none;
+.pc-only {
+    display: none; 
+}
+
+/* 言葉のカタマリを維持する設定 */
+.ib {
+    display: inline-block;
+    white-space: nowrap;
 }
 
 /* ==========================================
@@ -738,14 +792,30 @@ body {
         font-size: 1.5rem;
     }
 
-    .main-nav ul {
-        gap: 10px;
-        flex-wrap: wrap; /* メニューが多い場合に折り返す */
-        justify-content: center;
+    /* --- スマホメニュー：基本はスッキリ、現在地だけ下線を出す --- */
+    
+    .main-nav ul li a,
+    .main-nav a.btn-contact-top {
+        /* ★まず全員の下線を消し、文字色を落ち着かせます */
+        border-bottom: none !important;
+        color: #333 !important; 
+        padding-bottom: 8px !important;
+        display: inline-block;
+        transition: all 0.3s;
     }
 
-    .main-nav a {
-        font-size: 0.9rem;
+    /* ★この部分を探すか、上書きしてください */
+    .main-nav a.current {
+        /* !important をつけて、他のどの消去設定よりも優先させます */
+        border-bottom: 3px solid var(--primary-color) !important; 
+        color: var(--primary-color) !important;
+        opacity: 1 !important;
+    }
+
+    /* タッチした瞬間に少しだけ反応させる（おしゃれな遊び心） */
+    .main-nav a:active {
+        opacity: 0.7;
+        background-color: rgba(0,0,0,0.05);
     }
 
     /* 3. ヒーローエリア：文字を画面に収める */
@@ -768,11 +838,14 @@ body {
     }
 
     .hero-badge {
-        font-size: 1.0rem !important; /* 少し大きくしても2段なら入ります */
+        /* ★スマホでは画面幅に合わせて「折り返しを許可」する */
+        white-space: normal !important; 
+        
+        font-size: 1.0rem !important;
         padding: 15px 10px;
-        line-height: 1.6; /* ★2段になった時の行の間隔を調整 */
+        line-height: 1.6;
         width: 100%;
-        border-radius: 10px; /* 2段になるので角丸を少し控えめにすると綺麗です */
+        border-radius: 10px;
     }
 
     /* 4. 特徴・機器カード：スマホ用レイアウト調整 */
@@ -811,10 +884,20 @@ body {
         margin-bottom: 10px !important; /* アイコン下の隙間を詰める */
     }
     
-    .service-card h4 { 
-        font-size: 1.05rem !important; 
-        margin-bottom: 8px !important; /* タイトル下の隙間を詰める */
+    .service-card h4 {
+        /* 魔法の言葉：clamp 
+        最小 0.8rem、推奨 4.2vw（画面幅の4.2%）、最大 1.1rem で伸び縮みさせます */
+        font-size: clamp(0.8rem, 4.2vw, 1.1rem) !important;
+        
+        /* 絶対に改行させない命令 */
+        white-space: nowrap !important;
+        
+        /* 念のため、文字の間隔をほんの少しだけ詰めて1行に収まりやすくします */
+        letter-spacing: -0.5px;
+        
+        margin-bottom: 8px !important;
         line-height: 1.3 !important;
+        color: var(--primary-color);
     }
     
     .service-card p { 
@@ -1011,4 +1094,9 @@ body {
         width: 100%;
         padding: 20px;
     }
+
+    .pc-only {
+        display: none; /* スマホではPC用の改行を無効化 */
+    }
+    
 }
